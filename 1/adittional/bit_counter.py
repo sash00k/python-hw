@@ -10,7 +10,7 @@
 # Пример: 10 -> 2 (т.к. 10 - это 0…1010)
 # -123 -> 3 (т.к. -123 - это 1…0000101)
 
-def count(num: int) -> int:
+def count_slow(num: int) -> int:
     counter = 0
 
     if num < 0:
@@ -32,6 +32,14 @@ def count(num: int) -> int:
     return counter
 
 
+def count_low(num: int) -> int:
+    pass
+
+
+def limited_bin(x):
+  print(bin(x & 0xffffffff))
+
+
 if __name__ == '__main__':
     for number in (1, 3, 10, -123, -9, -7, -128, -16):
-        print(number, '->', count(number))
+        print(number, '->', count_slow(number))

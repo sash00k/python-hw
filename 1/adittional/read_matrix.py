@@ -14,7 +14,7 @@
 def read_matrix(input_str: str) -> list:
     matrix = []
     for string in input_str.split('|'):
-        matrix.append(list(map(int, string.split())))
+        matrix.append(list(map(float, string.split())))
 
     return matrix
 
