@@ -22,6 +22,6 @@ def flatten(lst: list, depth: int = -1) -> list:
 
 if __name__ == '__main__':
     arr = [1, 2, [3, [4]], 5]
-    print(flatten(arr))
-    print(flatten(arr, depth=1))
-    print(flatten(arr, depth=2))
+    print(flatten(arr)) # [1, 2, 3, 4, 5]
+    print(flatten(arr, depth=1)) # [1, 2, 3, [4], 5]
+    print(flatten(arr, depth=2)) # [1, 2, 3, 4, 5]
