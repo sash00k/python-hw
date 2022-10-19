@@ -12,19 +12,21 @@
 # -> {97832: ('Ivanov', 'Kuznecov'), 55521: 'Petrov'}
 
 def reversed_dict(input_dict: dict) -> dict:
-    output_dict = dict()
+    output_dict = {value: tuple() for value in input_dict.values()}
 
     for key, value in input_dict.items():
-        if value in output_dict:
-            output_dict[value] = (output_dict[value],) + (key,)
-        else:
-            output_dict[value] = key
+        output_dict[value] += (key,)
+
+    for value in input_dict.values():
+        if len(output_dict[value]) == 1:
+            output_dict[value] = output_dict[value][0]
+
     return output_dict
 
 
 if __name__ == '__main__':
-    dictionary = {'Ivanov': 97832, 'Petrov': 55521, 'Kuznecov': 97832}
-    # dictionary = {'a': 1, 'b': 2, 'c': 2, 'd': (1, 2), 'e': (1, 2), 'f': 5}
+    # dictionary = {'Ivanov': 97832, 'Petrov': 55521, 'Kuznecov': 97832}
+    dictionary = {'abc': 1, 'def': 2, 'c': 2, 'd': 2}
     # dictionary = {'a': []}
 
     print(dictionary)
