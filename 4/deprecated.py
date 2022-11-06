@@ -1,7 +1,6 @@
-import functools
-
-
 def deprecated(f=None, since=None, will_be_removed=None):
+
+    import functools    
 
     if f is None:
         return functools.partial(deprecated, since=since, will_be_removed=will_be_removed)
