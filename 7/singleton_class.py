@@ -1,36 +1,49 @@
 # Реализовать функциональность для объявления классов синглтонов.
 # Singleton (одиночка) - паттерн проектирования, который позволяет создать только один экземпляр класса.
 # При попытке создать еще один экземпляр, вы просто получаете уже созданный ранее экземпляр.
-import functools
+
+# decorator solution
+def singleton_decorator(cls):
+    instances = dict()
+
+    def getinstance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+
+    return getinstance
 
 
-class Sample:
-    # does_instance_exist = False
+@singleton_decorator
+class Foo:
+    def __init__(self, value=1):
+        self.value = value
+
+
+# class solution
+class SingletonClass:
     actual_instance = None
 
     def __new__(cls, *args, **kwargs):
-        instance = super().__new__(cls)
-        cls.actual_instance = instance
-        return instance
+        if cls.actual_instance is None:
+            cls.actual_instance = object.__new__(cls)
+        return cls.actual_instance
 
-    def __init__(self, value: int = 1):
+
+class Bar(SingletonClass):
+    def __init__(self, value=1):
         self.value = value
-
-# def singleton(cls):
-#
-#     @functools.wraps
-#     def init(self):
-#         if cls.does_instance_exist
-#         old_init = cls.__init__
-#
-#     cls.__init__ = init
-#     return cls
 
 
 if __name__ == '__main__':
-    sample1 = Sample(value=1)
-    print(id(sample1.actual_instance))
-    sample2 = Sample(value=2)
-    print(id(sample2.actual_instance))
-    # print(sample1.actual_instance)
-    # print(Sample.actual_instance)
+    foo_1 = Foo(value=1)
+    print(id(foo_1), foo_1.value)  # 139725593185344 1
+    foo_2 = Foo(value=2)
+    print(id(foo_2), foo_2.value)  # 139725593185344 1
+
+    bar_1 = Bar(value=1)
+    print(id(bar_1), bar_1.value)  # 139879821684848 1
+    bar_2 = Bar(value=2)
+    print(id(bar_2), bar_2.value)  # 139879821684848 2
+
+
