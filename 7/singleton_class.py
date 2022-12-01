@@ -20,13 +20,18 @@ class Foo:
         self.value = value
 
 
-# class solution
+# mixins solution
 class SingletonClass:
     actual_instance = None
 
     def __new__(cls, *args, **kwargs):
+        def __empty_init__(*a, **b):
+            pass
+
         if cls.actual_instance is None:
-            cls.actual_instance = object.__new__(cls)
+            cls.actual_instance = super().__new__(cls)
+        elif cls.__init__ is not __empty_init__:
+            cls.__init__ = __empty_init__
         return cls.actual_instance
 
 
@@ -36,14 +41,18 @@ class Bar(SingletonClass):
 
 
 if __name__ == '__main__':
+    # decorator solution
     foo_1 = Foo(value=1)
-    print(id(foo_1), foo_1.value)  # 139725593185344 1
+    print(foo_1.value)     # 1
     foo_2 = Foo(value=2)
-    print(id(foo_2), foo_2.value)  # 139725593185344 1
+    print(foo_2.value)     # 1
+    print(foo_1 is foo_2)  # True
 
+    # class solution
     bar_1 = Bar(value=1)
-    print(id(bar_1), bar_1.value)  # 139879821684848 1
+    print(bar_1.value)     # 1
     bar_2 = Bar(value=2)
-    print(id(bar_2), bar_2.value)  # 139879821684848 2
+    print(bar_2.value)     # 1
+    print(bar_1 is bar_2)  # True
 
 
