@@ -26,9 +26,6 @@ class LRUCache:
 
         self._dict[key] = value
 
-
-
-
     def get(self, key):
         if key in self._dict.keys():
             self._usage_history.remove(key)
