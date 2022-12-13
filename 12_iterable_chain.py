@@ -5,8 +5,8 @@
 
 def chain(*iterable_objects):
     for iterable_object in iterable_objects:
-        for elem in iterable_object:
-            yield elem
+        yield from iterable_object
+
 
 if __name__ == '__main__':
     print(list(chain([1, 2, 3], [4, 5])))
