@@ -1,12 +1,7 @@
 # my implementation of itertools.cycle()
 def cycle(iterable_object):
     while True:
-        iterator = iter(iterable_object)
-        while True:
-            try:
-                yield next(iterator)
-            except StopIteration:
-                break
+        yield from iterable_object
 
 
 if __name__ == '__main__':
