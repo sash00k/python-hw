@@ -14,15 +14,20 @@ class LRUCache:
         self._usage_history = [] # keys sorted by time of last use (the last used at index 0)
 
     def put(self, key, value):
-        if key in self._dict.keys():
-            return None
 
-        if len(self._dict) == self._capacity:
-            rare_used_key = self._usage_history.pop()
-            self._dict.pop(rare_used_key)
+        if key in self._dict.keys():
+            self._usage_history.remove(key)
+            self._usage_history.insert(0, key)
+        else:
+            if len(self._dict) == self._capacity:
+                rare_used_key = self._usage_history.pop()
+                self._dict.pop(rare_used_key)
+            self._usage_history.append(key)  # get() has never been called from this key, so it's the longest time
 
         self._dict[key] = value
-        self._usage_history.append(key) # get() has never been called from this key, so it's the longest time
+
+
+
 
     def get(self, key):
         if key in self._dict.keys():
@@ -53,7 +58,12 @@ if __name__ == '__main__':
     # Cache:{'a': 1, 'b': 1, 'd': 1}
     # History (long used on the right): ['a', 'b', 'd']
 
+    cache.put('d', -1)
+    print(cache)
+    # Cache:{'a': 1, 'b': 1, 'd': -1}
+    # History (long used on the right): ['d', 'a', 'b']
+
     cache.get('d')
     print(cache)
-    # Cache:{'a': 1, 'b': 1, 'd': 1}
+    # Cache:{'a': 1, 'b': 1, 'd': -1}
     # History (long used on the right): ['d', 'a', 'b']
