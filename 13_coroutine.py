@@ -1,12 +1,13 @@
 # Написать декоратор @coroutine, который избавляет от необходимости
 # сначала вызывать один раз next перед вызовами send.
+import functools
 
 def coroutine(f, *args, **kwargs):
+    @functools.wraps(f)
     def wrapper():
         called_f = f(*args, **kwargs)
         next(called_f)
         return called_f
-
     return wrapper
 
 @coroutine
